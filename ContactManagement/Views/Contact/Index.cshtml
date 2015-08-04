@@ -1,0 +1,99 @@
+﻿@model IEnumerable<ContactManagement.ViewModel.ContactListViewModel>
+
+@{
+    ViewBag.Title = "Contact List";
+}
+
+<h2>Contact List</h2>
+<div class="container">
+    <div class="row">
+        <form class="form-inline" action="/Contact/Index" method="GET">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="@ViewBag.NameParm">
+            </div>
+            <div class="form-group">
+                <label for="mobile">Mobile</label>
+                <input type="text" class="form-control" id="mobile" name="mobile" placeholder="eg.0450 232333" value="@ViewBag.MobileParm">
+            </div>
+            <input type="submit" value="Search" class="btn btn-default"/>
+        </form>
+
+    </div>
+    <div class="row">
+        <p class="pull-right">
+            <button class="btn btn-default" id="btnNewContact">
+                <span class="glyphicon glyphicon-plus"></span>New Contact
+            </button>
+        </p>
+        <table class="table table-striped">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Mobile)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Phone)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PhotoPath)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FirstName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LastName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Mobile)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Phone)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Email)
+                    </td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.PhotoPath))
+                        {
+                            <img src="@Url.Content(item.PhotoPath)" class="img-circle" width="152" height="118" />
+
+                        }
+                    </td>
+
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+
+</div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $("#btnNewContact").click(function () {
+            location.href = '@Url.Action("Create","Contact")';
+        });
+    </script>
+
+}
+
